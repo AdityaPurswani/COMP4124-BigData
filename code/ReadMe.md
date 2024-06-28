@@ -9,11 +9,11 @@ Alzheimer's Dementia
 - [Installation](#installation)
 
 ### Files to Run with order
-- [1 OneHot Encoding File](./code/1_Fill_null_and_One_Hot_Encoding.ipynb)
-- [2 Chi-Sqaure Test File](./code/2_Chi2_test_Feature_Selection.ipynb)
-- [3 Model Development](./code/3_Model_Developement.ipynb)
-- [4 Size up - Speed up - one hot encoding](./code/4_Size_up-Speed_up_one_hot_encoding.ipynb)
-- [5 Size up - Speed up - chi-sqaure test](./code/5_size_up_speed_up_Chi2.ipynb)
+- [1 OneHot Encoding File](./1_Fill_null_and_One_Hot_Encoding.ipynb)
+- [2 Chi-Sqaure Test File](./2_Chi2_test_Feature_Selection.ipynb)
+- [3 Model Development](./3_Model_Developement.ipynb)
+- [4 Size up - Speed up - one hot encoding](./4_Size_up-Speed_up_one_hot_encoding.ipynb)
+- [5 Size up - Speed up - chi-sqaure test](./5_size_up_speed_up_Chi2.ipynb)
 
 ## Problem Description - 
 
@@ -44,7 +44,7 @@ Spark can handle 100,000 feature columns at a time, this is still too small for 
 ### One Hot Encoding
 Initially we transpose the data and perform `one-hot encoding for data pre-processing`. 
 
-To do this run the file: [1 Fill null and One Hot Encoding](./code/1_Fill_null_and_One_Hot_Encoding.ipynb)
+To do this run the file: [1 Fill null and One Hot Encoding](./1_Fill_null_and_One_Hot_Encoding.ipynb)
 
 By running `1 Fill null and One Hot Encoding` we pre-process the data by checking the null values and `replacing the null values by 3`. The we performed one-hot encoding by a novel algorithm Firstly, categorical labels in each feature column (excluding the target column) are converted into a list of digits. For instance, labels 0 and 1 in column SEX are transferred to [1, 0] and [0, 1], while 0, 1, 2, 3 in gene variants are encoded as [1, 0, 0], [0, 1, 0], [0, 0, 1], and [0, 0, 0]. Subsequently, we expand the list of digits to multiple rows, each containing the digit of the same index.
 
@@ -55,7 +55,7 @@ By running `1 Fill null and One Hot Encoding` we pre-process the data by checkin
 
 After performing onehot encoding, we select the best features that might affect out model development the most. To select the features, we used the new onehot encoded dataset with `297,678 x 3 genetic variants` (features) to train our models. To select the features we used chi-square selector which is a filter-based method by thresholds of p-values.
 
-For feature selection run the file: [2 Chi2 test Feature Selection](./code/2_Chi2_test_Feature_Selection.ipynb)
+For feature selection run the file: [2 Chi2 test Feature Selection](./2_Chi2_test_Feature_Selection.ipynb)
 
 The Chi-Square test, which is one of the `filter-based methods` for categorical data, is employed for feature selection. The proposed method for feature selection with the Chi-Square test for transposed data is illustrated in Figure below. This test is performed on each feature (row) to the target that is broadcast to each partition. The result p-values are filtered by the threshold and collected into a list for the model-fitting process.
 
@@ -67,7 +67,7 @@ The Chi-Square test, which is one of the `filter-based methods` for categorical 
 After feature selection, we first `re-transpose` the dataset of selected features according to the threshold p-values that came from the `chi2 test`, then split the data into train and test datasets, we build models and train them according to the training data. Here we use two architechtures to build the models. First a global method, that uses a pyspark `MLLib architechture` and secondly a local method using a `scikit-learn pipelin`e. We train `Logistic Regression and LinearSVM` models based on the feature sets selected. We then test this model on the test dataset and then validate the result using a 10 fold cross validation.
 
 
-For Model development, training, testing and validation run the file: [3 Model Development](./code/3_Model_Developement.ipynb) 
+For Model development, training, testing and validation run the file: [3 Model Development](./3_Model_Developement.ipynb) 
 
 ##### Global Method (MLLib)
 ![Global Method](./images/model-global.png)
@@ -85,11 +85,11 @@ We conducted tests on these two metrics for the data processing operations withi
 
 ### SizeUp and Speedup One Hot Encoding
 
-Size Up and Speed up of One Hot Encoding, run the file: [4 Size up - Speed up - one hot encoding](./code/4_Size_up-Speed_up_one_hot_encoding.ipynb) 
+Size Up and Speed up of One Hot Encoding, run the file: [4 Size up - Speed up - one hot encoding](./4_Size_up-Speed_up_one_hot_encoding.ipynb) 
 
 ### SizeUp and Speedup ChiSqaure
 
-Size Up and Speed up of ChiSquare, run the file: [5 size up - speed up - Chi2](./code/5_size_up_speed_up_Chi2.ipynb)
+Size Up and Speed up of ChiSquare, run the file: [5 size up - speed up - Chi2](./5_size_up_speed_up_Chi2.ipynb)
 
 ## Results
 
